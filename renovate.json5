@@ -1,0 +1,20 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended", ":automergeMinor"],
+  customManagers: [
+    {
+      customType: "regex",
+      fileMatch: "^version.yaml$",
+      matchStrings: ['(?<depName>[a-z]+): "(?<currentValue>[0-9.]+)"'],
+      datasourceTemplate: "custom.hackage",
+    },
+  ],
+  customDatasources: {
+    hackage: {
+      defaultRegistryUrlTemplate: "https://hackage.haskell.org/package/{{packageName}}",
+      transformTemplates: [
+        '{"releases": $map($filter($keys(), function($v) { $lookup($, $v) = "normal" }), function($v) { {"version": $v} })}',
+      ],
+    },
+  },
+}
