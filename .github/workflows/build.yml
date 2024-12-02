@@ -47,16 +47,19 @@ jobs:
           merge-multiple: true
       - name: Set version
         run: echo "HINDENT_VERSION=$(yq eval '.hindent' version.yaml)" >> "$GITHUB_ENV"
-      - name: Check binaries and version
+      - name: Check version
+        run: 'echo "Hindent version: ${{ env.HINDENT_VERSION }}"'
+      - name: Compress binaries
         run: |
-          ls -l hindent-*
-          file hindent-*
-          echo "Hindent version: ${{ env.HINDENT_VERSION }}"
+          for f in hindent-*; do
+            file $f
+            xz -z -e $f
+          done
       - name: Release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: 'binary-*'
+          artifacts: 'hindent-*.xz'
           removeArtifacts: true
           replacesArtifacts: true
           tag: ${{ env.HINDENT_VERSION }}
