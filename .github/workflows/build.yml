@@ -35,6 +35,8 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -43,7 +45,18 @@ jobs:
         with:
           pattern: 'binary-*'
           merge-multiple: true
-      - name: Check binaries
+      - name: Set version
+        run: echo "HINDENT_VERSION=$(yq eval '.hindent' version.yaml)" >> "$GITHUB_ENV"
+      - name: Check binaries and version
         run: |
           ls -l hindent-*
           file hindent-*
+          echo "Hindent version: ${{ env.HINDENT_VERSION }}"
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: 'binary-*'
+          removeArtifacts: true
+          replacesArtifacts: true
+          tag: ${{ env.HINDENT_VERSION }}
