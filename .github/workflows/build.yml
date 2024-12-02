@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: |
           cabal install hindent
-          cp $(cabal exec -- which hindent) hindent-${{ matrix.os }}
+          cp ~/.cabal/bin/hindent hindent-${{ matrix.os }}
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
