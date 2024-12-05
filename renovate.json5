@@ -1,6 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:recommended", ":automergeMinor"],
+  extends: ["config:recommended", ":automergeMinor", "github>koterpillar/renovate-haskell:default.json5"],
   customManagers: [
     {
       customType: "regex",
@@ -9,12 +9,4 @@
       datasourceTemplate: "custom.hackage",
     },
   ],
-  customDatasources: {
-    hackage: {
-      defaultRegistryUrlTemplate: "https://hackage.haskell.org/package/{{packageName}}",
-      transformTemplates: [
-        '{"releases": $map($filter($keys(), function($v) { $lookup($, $v) = "normal" }), function($v) { {"version": $v} })}',
-      ],
-    },
-  },
 }
