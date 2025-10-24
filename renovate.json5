@@ -1,12 +1,19 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:recommended", ":automergeMinor"],
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    ':automergeMinor',
+  ],
   customManagers: [
     {
-      customType: "regex",
-      fileMatch: "^version.yaml$",
-      matchStrings: ['(?<depName>[a-z]+): "(?<currentValue>[0-9.]+)"'],
-      datasourceTemplate: "hackage",
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^version.yaml$/',
+      ],
+      matchStrings: [
+        '(?<depName>[a-z]+): "(?<currentValue>[0-9.]+)"',
+      ],
+      datasourceTemplate: 'hackage',
     },
   ],
 }
