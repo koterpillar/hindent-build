@@ -55,6 +55,11 @@ jobs:
             file $f
             xz -z -e $f
           done
+      - name: Delete existing release and tag
+        run: |
+          gh release delete "${{ env.HINDENT_VERSION }}" --yes --cleanup-tag || echo "Release ${{ env.HINDENT_VERSION }} does not exist"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Release
         uses: ncipollo/release-action@v1
         with:
