@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'main'
+  pull_request:
 
 jobs:
   build:
@@ -33,6 +34,7 @@ jobs:
           if-no-files-found: error
 
   release:
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: build
     runs-on: ubuntu-latest
     permissions:
