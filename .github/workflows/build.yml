@@ -7,13 +7,15 @@ on:
 
 jobs:
   build:
-    name: "Build (${{ matrix.os }})"
+    name: "Build (${{ matrix.os }}${{ matrix.arch && format(' {0}', matrix.arch) || ''}})"
     strategy:
       matrix:
-        os:
-          - ubuntu
-          - macos
-    runs-on: ${{ matrix.os }}-latest
+        include:
+          - os: ubuntu
+          - os: ubuntu
+            arch: arm
+          - os: macos
+    runs-on: ${{ matrix.arch && format('ubuntu-24.04-{0}', matrix.arch) || format('{0}-latest', matrix.os) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -28,7 +30,7 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v5
         with:
-          name: binary-${{ matrix.os }}
+          name: binary-${{ matrix.os }}-${{ matrix.arch || 'default' }}
           path: "hindent-*"
           include-hidden-files: true
           if-no-files-found: error
