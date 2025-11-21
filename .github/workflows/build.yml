@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.arch && format('ubuntu-24.04-{0}', matrix.arch) || format('{0}-latest', matrix.os) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set up Haskell
         uses: haskell-actions/setup@v2
         with:
@@ -43,7 +43,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Download binaries
         uses: actions/download-artifact@v6
         with:
