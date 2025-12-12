@@ -28,7 +28,7 @@ jobs:
           cabal install hindent
           cp ~/.cabal/bin/hindent hindent-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)
       - name: Upload binary
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: binary-${{ matrix.os }}-${{ matrix.arch || 'default' }}
           path: "hindent-*"
@@ -45,7 +45,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Download binaries
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           pattern: 'binary-*'
           merge-multiple: true
